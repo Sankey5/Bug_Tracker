@@ -2,11 +2,13 @@ from flask import Flask
 
 app = Flask(__name__)
 
+app.config.from_object("resources.config.Config")   # Import app config file
 
-@app.route('/')
-def hello_world():
-    return 'Hello World!'
+# Import endpoints
+from endpoints import bugCRUD
 
+# Add endpoints
+app.add_url_rule('/bugs', view_func=bugCRUD.getBugs(), methods=['GET'])
 
 if __name__ == '__main__':
     app.run()
