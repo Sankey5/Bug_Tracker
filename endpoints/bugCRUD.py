@@ -20,15 +20,15 @@ def createBug():
         priority = request.form.get('priority')
 
         # Checks to see if the given data meets the requirements
-        if not (name and description and priority):
+        if not (name and description and priority) and len(name) < 100 and len(description) < 500 and 1 < int(priority) < 4:
             return code400
 
         # If all checks have passed, attempt to make a new bug
         # The object itself should attempt to put the data into the database
         # Once the object is created, it should return a message with the id of the newly created object
-        bug_id = gateway.createBug()
+        bug_id = gateway.createBug(name, description, priority)
         response = make_response(jsonify({"message": "added", "id": bug_id}), 200)
-
+        return response
 
 
 def getBugs():
@@ -45,4 +45,4 @@ def getBugs():
 
 
 
-def deleteBug(id):
+#def deleteBug(id):
