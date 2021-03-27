@@ -7,12 +7,12 @@ from gateway import gateway     # Import gateway startup
 app = Flask(__name__)
 CORS(app)
 
+# Change the configuration settings of the app
+app.config.from_object("resources.config.Config")   # Import app config file
+
 # Create database and table if they don't exist
 gateway.check_database()
 gateway.check_tables()
-
-# Change the configuration settings of the app
-app.config.from_object("resources.config.Config")   # Import app config file
 
 # Add endpoints
 app.add_url_rule('/bugs', view_func=bugCRUD.createBug, methods=['POST'])
