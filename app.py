@@ -8,7 +8,7 @@ app.config.from_object("resources.config.Config")   # Import app config file
 from endpoints import bugCRUD
 
 # Add endpoints
-app.add_url_rule('/bugs', view_func=bugCRUD.getBugs(), methods=['GET'])
+app.add_url_rule('/bugs', view_func=bugCRUD.createBug, methods=['POST'])
 
 if __name__ == '__main__':
     app.run()
