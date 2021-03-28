@@ -1,13 +1,13 @@
 from flask import request, make_response, jsonify
-from gateway import gateway
+from gateway import bugGateway
 
-code400 = make_response(jsonify([{"message": "name is not between 1 and 100 characters"},
-                                          {"message": "description is not between 1 and 500 characters"},
-                                          {"message": "priority not between 1 and 4"}]), 400)
+code400 = None #make_response(jsonify([{"message": "bug name is not between 1 and 100 characters"},
+                                          #{"message": "description is not between 1 and 500 characters"},
+                                          #{"message": "priority not between 1 and 4"}]), 400)
 
 
 
-def createBug():
+def create_bug():
     """
     Greate a bug and but it into the database
     :return:
@@ -26,23 +26,28 @@ def createBug():
         # If all checks have passed, attempt to make a new bug
         # The object itself should attempt to put the data into the database
         # Once the object is created, it should return a message with the id of the newly created object
-        bug_id = gateway.createBug(name, description, priority)
+        bug_id = bugGateway.create_bug(name, description, priority)
         response = make_response(jsonify({"message": "added", "id": bug_id}), 200)
         return response
 
 
-def getBugs():
+def get_bugs():
     """
     Get all available bugs currently in the database
     """
 
     if request.method == 'GET':
         # reach out to database to get information
-        bug = gateway.getBugs()
+        bugs = bugGateway.get_bugs()
 
         # return list of bugs
+        bugs = [jsonify({"id": int(bug[0]),
+                 "name": bug[1],
+                 "description": bug[2],
+                 "priority": bug[3]}) for bug in bugs]
 
-
+        response = make_response(bugs, 200)
+        return response
 
 
 #def deleteBug(id):

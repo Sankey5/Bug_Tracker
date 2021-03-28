@@ -25,11 +25,12 @@ def check_database():
 
     cursor = connector.cursor(prepared=True)  # Enables the execution of a prepared statement
 
-
-    statement = ("CREATE DATABASE IF NOT EXISTS %s")
+    statement = ("CREATE DATABASE IF NOT EXISTS %s" % (current_app.config['DATABASE_NAME']))
 
     # Creates the database if it doesn't already exist
-    cursor.execute(statement, (current_app.config['DATABASE_NAME'],))
+    cursor.execute(statement, )
+
+    close_database(connector, cursor)
 
 
 
@@ -72,28 +73,18 @@ def close_database(connector, cursor):
     if connector:
         connector.close()
 
+
 def check_tables():
     db_conn, db_cursor = open_database()
 
-    statement = ("CREATE TABLE IF NOT EXISTS bugs ("
-                 "int id UNSIGNED AUTO INCREMENT"
-                 "VARCHAR(100) name NOT NULL"
-                 "VARCHAR(500) description"
-                 "SMALLINT priority NOT NULL)")
+    statement = ("CREATE TABLE IF NOT EXISTS bugs "
+                 "(id INT UNSIGNED AUTO_INCREMENT, "
+                 "bugName VARCHAR(100) NOT NULL, "
+                 "description VARCHAR(500), "
+                 "priority SMALLINT DEFAULT 4,"
+                 "PRIMARY KEY(id))")
 
-    close_database()
-
-def createBug(name, description, priority):
-    """"""
-    db_conn, db_cursor = open_database()
-
-    statement = ("INSERT INTO bugs "
-                 "(address, city, state, zip) "
-                 "VALUES (%s, %s, %s, %s)")
-    db_cursor.execute(statement, (address, city, state, zip))
+    db_cursor.execute(statement)
     db_conn.commit()
 
-    propertyId = db_cursor.lastrowid
-
     close_database(db_conn, db_cursor)
-    return propertyId
