@@ -22,6 +22,9 @@ def before_first_request():
 # Add endpoints
 app.add_url_rule('/bugs', view_func=bugCRUD.get_bugs, methods=['GET'])
 app.add_url_rule('/bugs', view_func=bugCRUD.create_bug, methods=['POST'])
+#app.add_url_rule('/bugs/<id>', view_func=bugCRUD.get_one_bug, methods=['GET'])
+app.add_url_rule('/bugs/<id>', view_func=bugCRUD.update_bug, methods=['PUT'])
+app.add_url_rule('/bugs/<id>', view_func=bugCRUD.delete_bug, methods=['DELETE'])
 
 # Run it
 if __name__ == '__main__':
