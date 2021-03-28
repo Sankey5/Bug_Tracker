@@ -40,13 +40,15 @@ def get_bugs():
         # reach out to database to get information
         bugs = bugGateway.get_bugs()
 
-        # return list of bugs
-        bugs = [jsonify({"id": int(bug[0]),
-                 "name": bug[1],
-                 "description": bug[2],
-                 "priority": bug[3]}) for bug in bugs]
+        print(bugs)
 
-        response = make_response(bugs, 200)
+        # return list of bugs
+        bugs = [{"id": int(bug[0]),
+                 "name": bug[1].decode(),
+                 "description": bug[2].decode(),
+                 "priority": bug[3]} for bug in bugs]
+
+        response = make_response(jsonify(bugs), 200)
         return response
 
 

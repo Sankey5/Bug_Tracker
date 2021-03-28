@@ -23,8 +23,6 @@ def get_bugs():
 
     # MySql statement to get everything from a table
     statement = ("SELECT * FROM bugs")
-
-    # Execute statement
     db_cursor.execute(statement)
 
     for bug in db_cursor:

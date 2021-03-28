@@ -18,6 +18,7 @@ def before_first_request():
     utility.check_database()
     utility.check_tables()
 
+
 # Add endpoints
 app.add_url_rule('/bugs', view_func=bugCRUD.get_bugs, methods=['GET'])
 app.add_url_rule('/bugs', view_func=bugCRUD.create_bug, methods=['POST'])
